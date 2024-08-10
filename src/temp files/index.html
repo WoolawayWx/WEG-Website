@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RQDLJ9JX3Y"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-RQDLJ9JX3Y');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Weather Conditions</title>
+    <link rel="stylesheet" href="/weg.css">
+</head>
+<body>
+    <h1>Current Weather</h1>
+    <h4>How to use</h4>
+    <p>Use the city select drop-down, and the fire weather station drop-down to choose the stations you want to pull data from. Using coordinates mapped to the city selection, the forecast and fire weather forecast will be calculated upon hitting the submit button, as well as pulling the latest information from a weather sensor close to the selected location.</p>
+    <form method="get">
+        <div class="locationSelect">
+            <div class="cityselect">
+                <h4>City Select</h4>
+                <select id="LocalTown">
+                    <option value='anderson'>Anderson</option>
+                    <option value='aurora'>Aurora</option>
+                    <option value='butterfield'>Butterfield</option>
+                    <option value='cassville'>Cassville</option>
+                    <option value='eaglerock'>Eagle Rock</option>
+                    <option value='exeter'>Exeter</option>
+                    <option value='granby'>Granby</option>
+                    <option value='jenkins'>Jenkins </option>
+                    <option value='monett'>Monett</option>
+                    <option value='neosho'>Neosho</option>
+                    <option value='pineville'>Pineville </option>
+                    <option value='pirececity'>Pirece City</option>
+                    <option value='purdy'>Purdy</option>
+                    <option value='seligman'>Seligman</option>
+                    <option value='shellknob'>Shell Knob</option>
+                    <option value='southwestcity'>Southwest City</option>
+                    <option value='stella'>Stella</option>
+                    <option value='washburn'>Washburn</option>
+                    <option value='wheaton'>Wheaton</option>
+                </select>
+            </div>
+            <div class="firewxselect">
+                <h4>Fire Weather Station</h4>
+                <select id="fireWxStation">
+                    <option value="CRWM7">Cassville</option>
+                    <option value="MVVM7">Mt.Vernon</option>
+                    <option value="TT530">Gateway</option>
+                    <option value="SPWM7">Springfield</option>
+                </select>
+            </div>
+            
+        </div>
+        <div class="submitbutton">
+            <button id="updatebutton" type="button">Click to Update</button>
+        </div>
+    </form>
+    <h3>Current Observations</h3>
+    <div id="obsdataview"></div>
+    <h3>NWS Forecast</h3>
+    <div id="output" class="fireweathertable">
+        <table>
+            <tr>
+                <th>Time</th>
+            </tr>
+        </table>
+    </div>
+    <h3>Fire Weather</h3>
+    <div id="fireweather"></div>
+    <div class="fireweathertable">
+        <h4>WoolawayWx's Fire Weather Index</h4>
+        <div id="fireweatherForecast">
+            
+        </div>
+        <h4>Fire Value Keys</h4>
+            <table>
+                <tr>
+                    <td>0 - 10</td>
+                    <td>Low</td>
+                </tr>
+                <tr>
+                    <td>10 - 20</td>
+                    <td>Elevated</td>
+                </tr>
+                <tr>
+                    <td>20 - 30</td>
+                    <td>Moderate</td>
+                </tr>
+                <tr>
+                    <td>30 - 45</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td>45 - 60</td>
+                    <td>Very High</td>
+                </tr>
+                <tr>
+                    <td>>60</td>
+                    <td>Extreme</td>
+                </tr>
+            </table>
+    </div>
+
+    <script type="text/javascript">
+        document.getElementById("updatebutton").addEventListener("click", locationUpdate);
+        var city;
+        var city_lat;
+        var city_lon;
+        var city_Cap;
+        var stationID;
+        function locationUpdate() {
+            var obsdataview=document.getElementById("obsdataview");
+            obsdataview.replaceChildren();
+            fireweather.replaceChildren();
+            var firewxStation = document.getElementById("fireWxStation").value;
+            setTimeout(dataupdate, 100);
+            localStorage.setItem("FireWxStationID", firewxStation);
+            var cityLoc = document.getElementById("LocalTown").value;
+            if (cityLoc=="shellknob") {
+                var city_lat="36.6239";
+                var city_lon="-93.6279";
+                var city_Cap="Shell Knob";
+                var stationID="F3232";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            } 
+            else if (cityLoc=="anderson") {
+                var city_lat="36.6432";
+                var city_lon="-94.4395";
+                var city_Cap="Anderson";
+                var stationID="AV446";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="aurora") {
+                var city_lat="36.9654";
+                var city_lon="-93.7199";
+                var city_Cap="Aurora";
+                var stationID="AR487";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="butterfield") {
+                var city_lat="36.7434";
+                var city_lon="-93.9108";
+                var city_Cap="Butterfield";
+                var stationID="F5451";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="cassville") {
+                var city_lat="36.6702";
+                var city_lon="-93.8676";
+                var city_Cap="Cassville";
+                var stationID="F5451";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="eaglerock") {
+                var city_lat="36.5638";
+                var city_lon="-93.7604";
+                var city_Cap="Eagle Rock";
+                var stationID="F5451";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="exeter") {
+                var city_lat="36.6680";
+                var city_lon="-93.9390";
+                var city_Cap="Exeter";
+                var stationID="F5451";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="granby") {
+                var city_lat="36.9155";
+                var city_lon="-94.2596";
+                var city_Cap="Granby";
+                var stationID="KHFJ";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="jenkins") {
+                var city_lat="36.7742";
+                var city_lon="-93.6842";
+                var city_Cap="Jenkins";
+                var stationID="F5451";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="monett") {
+                var city_lat="36.9144";
+                var city_lon="-93.9280";
+                var city_Cap="Jenkins";
+                var stationID="KHFJ";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="neosho") {
+                var city_lat="36.8482";
+                var city_lon="-94.3812";
+                var city_Cap="Neosho";
+                var stationID="E4150";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="pineville") {
+                var city_lat="36.5889";
+                var city_lon="-94.3873";
+                var city_Cap="Pineville";
+                var stationID="AV446";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="pirececity") {
+                var city_lat="36.9494";
+                var city_lon="-94.0035";
+                var city_Cap="Pirece City";
+                var stationID="KHFJ";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="purdy") {
+                var city_lat="36.8135";
+                var city_lon="-93.9225";
+                var city_Cap="Purdy";
+                var stationID="KHFJ";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="seligman") {
+                var city_lat="36.5212";
+                var city_lon="-93.9379";
+                var city_Cap="Seligman";
+                var stationID="F5451";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+             else if (cityLoc=="washburn") {
+                var city_lat="36.5818";
+                var city_lon="-93.9668";
+                var city_Cap="Washburn";
+                var stationID="F5451";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="shellknob") {
+                var city_lat="36.6205";
+                var city_lon="-93.6227";
+                var city_Cap="Shell Knob";
+                var stationID="F3232";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="southwestcity") {
+                var city_lat="36.5130";
+                var city_lon="-94.6115";
+                var city_Cap="Southwest City";
+                var stationID="AV446";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="stella") {
+                var city_lat="36.7560";
+                var city_lon="-94.1906";
+                var city_Cap="Stella";
+                var stationID="F6791";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+            else if (cityLoc=="wheaton") {
+                var city_lat="36.7587";
+                var city_lon="-94.0533";
+                var city_Cap="Wheaton";
+                var stationID="F6791";
+                sessionStorage.setItem('city_Cap',city_Cap);
+                sessionStorage.setItem('city_lat',city_lat);
+                sessionStorage.setItem('city_lon',city_lon);
+                sessionStorage.setItem('stationID',stationID);
+            }
+        };
+        // Fire Weather Index Thresholds
+        var firewx_Low = 10; // 0 - 6 is Low
+        var firewx_Elevated = 20; // 6 - 15 Elevated
+        var firewx_Moderate = 30; // 15 - 25 Moderate
+        var firewx_High = 45; // 35 - 50 High
+        var firewx_VeryHigh = 60; // 50 - 60 very high
+        // x>60 is extreme
+        sessionStorage.setItem('firewx_Low',firewx_Low);
+        sessionStorage.setItem('firewx_Elevated',firewx_Elevated);
+        sessionStorage.setItem('firewx_Moderate',firewx_Moderate);
+        sessionStorage.setItem('firewx_High',firewx_High);
+        sessionStorage.setItem('firewx_VeryHigh',firewx_VeryHigh);
+        function dataupdate() {
+            var city_Cap = sessionStorage.getItem('city_Cap');
+            var city_lat = sessionStorage.getItem('city_lat');
+            var city_lon = sessionStorage.getItem('city_lon');
+            var stationID = sessionStorage.getItem('stationID');
+            var firewxStation = localStorage.getItem("FireWxStationID");
+            const forecastlist =document.createElement('ul')
+            const wxstationurl="https://api.synopticdata.com/v2/stations/latest?&stid="+(stationID)+"&units=english,speed|mph,pres|mb&recent=1440&24hsummary=1&qc_remove_data=off&qc_flags=on&qc_checks=all&hfmetars=1&showemptystations=1&precip=1&timeformat=%H:%M&obtimezone=local&token=dbdc2dba77634cb99cd8969c2a75d708";
+            // fetch('https://api.synopticdata.com/v2/stations/latest?&stid=F6791&units=english,speed|mph,pres|mb&recent=1440&24hsummary=1&qc_remove_data=off&qc_flags=on&qc_checks=all&hfmetars=1&showemptystations=1&precip=1&timeformat=%H:%M&obtimezone=local&token=dbdc2dba77634cb99cd8969c2a75d708')
+            fetch(wxstationurl)
+            .then(res=> {
+                return res.json();
+            })
+            .then(data=> {
+                //creating weather varibles from those not created below
+                const TEMP = (data.STATION[0].OBSERVATIONS.air_temp_value_1.value);
+            
+                const observationdata = document.getElementById("obsdataview");
+                //Update Time
+                const timeupdate = document.createElement('p');
+                timeupdate.innerHTML = "Time Updated: "+(data.STATION[0].OBSERVATIONS.air_temp_value_1.date_time);
+                observationdata.appendChild(timeupdate);
+                // Selected City
+                const town_display=document.createElement('p');
+                town_display.innerHTML="Selected Location: "+(city_Cap);
+                observationdata.appendChild(town_display);
+                //Station Location
+                const StationLocation = document.createElement('p');
+                StationLocation.innerHTML=(data.STATION[0].NAME);
+                observationdata.appendChild(StationLocation);
+                //Currrent Temp
+                const currentTemp = document.createElement('p');
+                currentTemp.innerHTML = "Current Temp: "+(data.STATION[0].OBSERVATIONS.air_temp_value_1.value)+"°F";
+                observationdata.appendChild(currentTemp);
+                //Humidity Value
+                const currentRH = document.createElement('p');
+                const RH = (data.STATION[0].OBSERVATIONS.relative_humidity_value_1.value)
+                currentRH.innerHTML = "Humidity: "+(RH)+"%";
+                observationdata.appendChild(currentRH);
+                //Wind Speed and Direction
+                const WindSpeed_MPH=(data.STATION[0].OBSERVATIONS.wind_speed_value_1.value);
+                const WindSpeed_Display= document.createElement('p');
+                WindSpeed_Display.innerHTML = "Wind Speed: "+(data.STATION[0].OBSERVATIONS.wind_speed_value_1.value)+" MPH from the "+(data.STATION[0].OBSERVATIONS.wind_cardinal_direction_value_1d.value);
+                observationdata.appendChild(WindSpeed_Display);
+                // Sea Level Pressure
+                const SeaLevelPressure = document.createElement('p');
+                SeaLevelPressure.innerHTML="Sea Level Pressure: "+(data.STATION[0].OBSERVATIONS.sea_level_pressure_value_1d.value)+" mb";
+                observationdata.appendChild(SeaLevelPressure);
+                // Rainfall Since Midnight
+                if ("precip_accum_since_local_midnight_value_1"in(data.STATION[0].OBSERVATIONS)) {
+                    const Rainfall_Day=(data.STATION[0].OBSERVATIONS.precip_accum_since_local_midnight_value_1.value).toFixed(2);
+                    const Rainfall_Day_Display=document.createElement('p');
+                    Rainfall_Day_Display.innerHTML="Rainfall since Midnight: "+(Rainfall_Day)+" IN";
+                    observationdata.appendChild(Rainfall_Day_Display);
+                } else {console.log("Daily Rainfall Not Logged")
+                    const Rainfall_Day_Display=document.createElement('p');
+                    Rainfall_Day_Display.innerHTML="Daily Rainfall Not Logged";
+                    observationdata.appendChild(Rainfall_Day_Display);
+                }
+                // Rainfall over the past 24 Hours
+                if ("precip_accum_24_hour_value_1"in(data.STATION[0].OBSERVATIONS)) {
+                    const Rainfall_24=(data.STATION[0].OBSERVATIONS.precip_accum_24_hour_value_1.value).toFixed(2);
+                    const Rainfall_24_Display=document.createElement('p');
+                    Rainfall_24_Display.innerHTML="Rainfall over the last 24 Hours: "+(Rainfall_24)+" IN";
+                    observationdata.appendChild(Rainfall_24_Display);
+                } else { console.log("24 Hour Rainfall Not Logged");
+                    const Rainfall_24_Display=document.createElement('p');
+                    Rainfall_24_Display.innerHTML="24 Hour Rainfall Not Logged";
+                    observationdata.appendChild(Rainfall_24_Display);
+
+                }
+                //Solar Radiation
+                if ("solar_radiation_value_1"in(data.STATION[0].OBSERVATIONS)) {
+                    const SolarRadiation=((data.STATION[0].OBSERVATIONS.solar_radiation_value_1.value));
+                    const SolarRadiation_Display=document.createElement('p');
+                    SolarRadiation_Display.innerHTML="Solar Radiation: "+(SolarRadiation)+" W/M^2";
+                    observationdata.appendChild(SolarRadiation_Display);
+                }   else {
+                    console.log("No Solar Radiation in File");
+                }
+                firewxstationupdate();
+
+                function firewxstationupdate() {
+                    const firewxurl_base = "https://api.synopticdata.com/v2/stations/latest?&stid="+(document.getElementById("fireWxStation").value)+"&units=english,speed|mph,pres|mb&recent=1440&24hsummary=1&qc_remove_data=off&qc_flags=on&qc_checks=all&hfmetars=1&showemptystations=1&precip=1&timeformat=%H:%M&obtimezone=local&token=dbdc2dba77634cb99cd8969c2a75d708"
+                    fetch(firewxurl_base)
+                    .then(res=>{
+                        return res.json();
+                    })
+                    .then(data=>{
+                        const observationdata = document.getElementById("obsdataview");
+                        const FM=(data.STATION[0].OBSERVATIONS.fuel_moisture_value_1.value);
+                        const FT=(data.STATION[0].OBSERVATIONS.fuel_temp_value_1.value);
+                        outputForecast += "<td>"+(FM)+"°F"+ "</td>";
+                        const currentFM = document.createElement('p');
+                        const currentFT = document.createElement('p');
+                        currentFM.innerHTML = "Fuel Moisture "+(FM)+" gm";
+                        currentFT.innerHTML = "Fuel Temperature: "+(FT)+"°F";
+                        observationdata.appendChild(currentFM);
+                        observationdata.appendChild(currentFT);
+                    })
+                }
+            })
+            var city_lat = sessionStorage.getItem('city_lat');
+            var city_lon = sessionStorage.getItem('city_lon');
+            const NWSForecastURL="https://api.weather.gov/points/"+(city_lat)+","+(city_lon);
+        fetch(NWSForecastURL)
+            .then(res=> {
+                return res.json();
+            })
+            .then(data=> {
+                var forecast_x =(data.properties.gridX);
+                var forecast_y =(data.properties.gridY);
+                var gridID = (data.properties.gridId);
+                sessionStorage.setItem('forecast_x',forecast_x);
+                sessionStorage.setItem('forecast_y',forecast_y);
+                sessionStorage.setItem('gridId', gridID)
+
+            });
+        var forecast_x = sessionStorage.getItem('forecast_x');
+        var forecast_y = sessionStorage.getItem('forecast_y');
+        var gridID = sessionStorage.getItem('gridId')
+        const gridurl = "https://api.weather.gov/gridpoints/"+(gridID)+"/"+(forecast_x)+","+(forecast_y)+"/forecast/hourly"
+        // fetch('https://api.weather.gov/gridpoints/SGF/40,14/forecast/hourly')
+        fetch(gridurl)
+        // fetch(NWSForecastURL)
+            .then(res=> {
+                return res.json();
+            })
+            .then(data=> {
+                let hourlyarray = (data.properties.periods);
+                var today = new Date();
+                var numMillSec = today.getTime();
+                var time1=today.getHours();
+                var hour=(60*60*1000)
+                var date2=new Date(numMillSec+hour)
+                var time2=date2.getHours();
+                var outputForecast= "<table>"; 
+                outputForecast += "<tr>";
+                outputForecast += "<th class='time'>"+"Time"+"</th>";
+                outputForecast += "<th class='time'>"+"Temperature"+"</th>";
+                outputForecast += "<th class='time'>"+"Humidity"+"</th>";
+                outputForecast += "<th class='time'>"+"POP"+"</th>";
+                outputForecast += "<th class='time'>"+"Wind"+"</th>";
+                outputForecast += "</tr>";
+                for (var i = 0; i < 12; i++) {
+                    var forecasttime= new Date(numMillSec+((i+1)*hour));
+                    var time=forecasttime.getHours();
+                    outputForecast += "<tr>";
+                    // outputForecast += "<td class='time'>"+(hourlyarray[i].startTime )+ "</td>";
+                    outputForecast += "<td>"+(time)+":00"+ "</td>";
+                    outputForecast += "<td>"+(hourlyarray[i].temperature )+"°F"+ "</td>";
+                    outputForecast += "<td>"+(hourlyarray[i].relativeHumidity.value )+"%"+ "</td>";
+                    outputForecast += "<td>"+(hourlyarray[i].probabilityOfPrecipitation.value )+ "%"+"</td>";
+                    outputForecast += "<td class='wind'>"+(hourlyarray[i].windSpeed )+" from the "+(hourlyarray[i].windDirection )+"</td>";
+                    outputForecast += "</tr>";
+                    document.getElementById('output').innerHTML = outputForecast;
+                }
+                var outputForecast = "</table>"; 
+            })
+        var city_lat = sessionStorage.getItem('city_lat');
+        var city_lon = sessionStorage.getItem('city_lon');
+        const FWIURLCURRENT="https://api.openweathermap.org/data/2.5/fwi?lat="+(city_lat)+"&lon="+(city_lon)+"&appid=6f0b7194d35b45ec424ae05b3e8f8487";
+        // fetch("https://api.openweathermap.org/data/2.5/fwi?lat=36.7480&lon=-94.0606&appid=6f0b7194d35b45ec424ae05b3e8f8487")
+        fetch(FWIURLCURRENT)
+        .then(res => {
+            return res.json()
+        })
+        .then(data => {
+            var firewx_Low = 6; // 0 - 6 is Low
+            var firewx_Elevated = 15; // 6 - 15 Elevated
+            var firewx_Moderate = 25; // 25 - 35 Moderate
+            var firewx_High = 35; // 35 - 50 High
+            var firewx_VeryHigh = 60; // 50 - 60 very high
+            var firewx_Low = sessionStorage.getItem('firewx_Low');
+            var firewx_Elevated = sessionStorage.getItem('firewx_Elevated');
+            var firewx_Moderate = sessionStorage.getItem('firewx_Moderate');
+            var firewx_High = sessionStorage.getItem('firewx_High');
+            var firewx_VeryHigh = sessionStorage.getItem('firewx_VeryHigh');
+            const FWI =(data.list[0].main.fwi);
+            const FWI_Danger = 'Not Calculated'; 
+            const FWI_DisplayNum = document.createElement('p');
+            FWI_DisplayNum.innerHTML="WoolawayWx's Fire Weather Index: "+(FWI);
+            fireweather.appendChild(FWI_DisplayNum);
+            if (FWI <firewx_Low) {
+                const FWI_Danger="Low";
+                const FWI_Display = document.createElement('p');
+                FWI_Display.innerHTML="Current Fire Danger: "+(FWI_Danger);
+                fireweather.appendChild(FWI_Display);
+            } else if (FWI <firewx_Elevated){
+                const FWI_Danger="Elevated";
+                const FWI_Display = document.createElement('p');
+                FWI_Display.innerHTML="Current Fire Danger: "+(FWI_Danger);
+                fireweather.appendChild(FWI_Display);
+            } else if (FWI <firewx_Moderate){
+                const FWI_Danger="Moderate";
+                const FWI_Display = document.createElement('p');
+                FWI_Display.innerHTML="Current Fire Danger: "+(FWI_Danger);
+                fireweather.appendChild(FWI_Display);
+            } else if (FWI <firewx_High){
+                const FWI_Danger="High";
+                const FWI_Display = document.createElement('p');
+                FWI_Display.innerHTML="Current Fire Danger: "+(FWI_Danger);
+                fireweather.appendChild(FWI_Display);
+            } else if (FWI <firewx_VeryHigh){
+                const FWI_Danger="Very High";
+                const FWI_Display = document.createElement('p');
+                FWI_Display.innerHTML="Current Fire Danger: "+(FWI_Danger);
+                fireweather.appendChild(FWI_Display);
+            } else if (FWI >=firewx_VeryHigh){
+                const FWI_Danger="Extreme";
+                const FWI_Display = document.createElement('p');
+                FWI_Display.innerHTML="Current Fire Danger: "+(FWI_Danger);
+                fireweather.appendChild(FWI_Display);
+            } else {
+                const FWI_Danger="Error";
+                const FWI_Display = document.createElement('p');
+                FWI_Display.innerHTML="Current Fire Danger: "+(FWI_Danger);
+                fireweather.appendChild(FWI_Display);
+            };
+        });
+        var city_lat = sessionStorage.getItem('city_lat');
+        var city_lon = sessionStorage.getItem('city_lon');
+        const FWIURLFORECAST="https://api.openweathermap.org/data/2.5/fwi/forecast?lat="+(city_lat)+"&lon="+(city_lon)+"&appid=6f0b7194d35b45ec424ae05b3e8f8487";
+        // fetch("https://api.openweathermap.org/data/2.5/fwi/forecast?lat=36.7480&lon=-94.0606&appid=6f0b7194d35b45ec424ae05b3e8f8487")
+        fetch(FWIURLFORECAST)
+        .then(res => {
+            return res.json();
+        })
+        .then(data =>{
+            var firewx_Low = sessionStorage.getItem('firewx_Low');
+            var firewx_Elevated = sessionStorage.getItem('firewx_Elevated');
+            var firewx_Moderate = sessionStorage.getItem('firewx_Moderate');
+            var firewx_High = sessionStorage.getItem('firewx_High');
+            var firewx_VeryHigh = sessionStorage.getItem('firewx_VeryHigh');
+            var fireweatherforecast="<table>";
+            fireweatherforecast +="<tr>";
+            fireweatherforecast +="<th>"+"Day"+"</th>";
+            fireweatherforecast +="<th>"+"WXFWI"+"</th>";
+            fireweatherforecast +="<th>"+"Danger Level"+"</th>";
+            fireweatherforecast +="</tr>"
+            var day = 1;
+                for (i=0; i<7; i++){
+                    var fwi =(data.list[i].main.fwi);
+                if (fwi <firewx_Low) {
+                    var level ="Low";
+                } else if (fwi <firewx_Elevated){
+                    var level ="Elevated";
+                } else if (fwi <firewx_Moderate){
+                    var level ="Moderate";
+                } else if (fwi <firewx_High){
+                    var level ="High";
+                } else if (fwi <firewx_VeryHigh){
+                    var level ="Very High";
+                } else if (fwi >=firewx_VeryHigh){
+                    var level ="Extreme";
+                } else {
+                    var level ="Error";
+                };
+                fireweatherforecast +="<tr>";
+                fireweatherforecast +="<td>"+(day)+"</td>";
+                fireweatherforecast +="<td>"+(fwi)+"</td>";
+                fireweatherforecast +="<td>"+(level)+"</td>";
+                fireweatherforecast +="</tr>";
+                document.getElementById("fireweatherForecast").innerHTML = fireweatherforecast;
+                var day = day+1;
+            };
+            fireweatherforecast +="</table>"
+            })
+            var outputForecast = "</table>"; 
+            // function firewxvaluestable() {
+            //     firewxtable="<table>";
+            //     firewxtable+="<tr>"+="<td>"+"0 < X < 6"+"</td>"+"<td>"+"Low Fire Danger"+"</td>"+"</tr>";
+            //     firewxtable+="</table>";
+            //     document.getElementById("firewxdatatable").innerHTML = firewxtable;
+                
+            // }
+        };
+    </script>
+</body>
+</html>
+

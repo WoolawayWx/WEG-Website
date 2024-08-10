@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 139 24 26;
+    --color-secondary: 250 250 250;
+    --color-neutral: 182 182 180;
+    /* ... */
+  }
+}
+
+@layer components {
+    .btn-primary {
+      @apply py-2 px-5 my-1 mx-3 bg-primary font-semibold rounded-full shadow-md hover:bg-neutral text-white hover:text-black;
+    }
+    .btn-onBlack {
+        @apply py-1 px-2 md:py-2 md:px-5 md:text-2xl md:h-[4vh] text-xs aspect-auto bg-black text-white border-2 border-white font-semibold rounded-full shadow-md hover:bg-white focus:outline-none focus:ring focus:ring-white focus:ring-opacity-75 hover:text-black;
+    }
+    .NavBarButton {
+      @apply mx-2 px-2 hover:bg-white py-2 my-1 hover:text-black rounded-xl shadow-md shadow-black
+    }
+    .NavButton {
+      @apply  text-white uppercase pt-1 mt-3 mb-2 px-1 mx-4 rounded-md hover:bg-secondary hover:text-black font-bold
+    }
+    .NavButton_Mobile {
+      @apply  text-white w-full uppercase pt-1 mt-3 mb-2 px-1 mx-[10%] w-[80%] rounded-md hover:bg-secondary hover:text-black font-bold
+    }
+    .active-link {
+      @apply border-b-4 border-white hover:border-black 
+    }
+    .Desktop-Nav-Dropdown {
+      @apply bg-white w-[125%] shadow-xl rounded-xl shadow-black flex flex-col font-bold text-black uppercase text-center justify-center left-[50%] translate-x-[-50%]
+    }
+    .dropmenu-active {
+      @apply bg-black text-white
+    }
+    .Desktop-Nav-Dropdown-Child {
+      @apply w-4/5 ml-auto mr-auto p-1 my-1 uppercase text-sm hover:bg-secondary ring-black hover:ring-2 rounded-lg transition duration-500 hover:scale-125
+    }
+  }
+
+.bebas-neue-regular {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}

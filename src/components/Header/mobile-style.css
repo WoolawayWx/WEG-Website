@@ -1,0 +1,11 @@
+.mobile-header {
+    width: 100%;
+    background-color: rgb(139, 24, 26);
+    padding: 0px;
+    margin: 0px;
+}
+.mobile-header-container {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}

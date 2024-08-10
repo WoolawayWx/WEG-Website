@@ -1,0 +1,82 @@
+@media only screen and (max-width: 768px) {
+    .dynamic-display {
+        width: 95%;
+        margin: 2.5%;
+        display: flex;
+        flex-direction: column;
+    }
+    .dynamic-display-head {
+        border-bottom: 0.3cqw solid black;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+    .dynamic-display-head button {
+        width: 25%;
+        border: 0.2cqw solid black;
+    }
+    .NonactiveButton {
+        width: 25%;
+        background-color: white;
+        border: 0.2cqw solid black;
+        color: black;
+    }
+    .activeButton {
+        color: white;
+        background-color: black;
+    }
+    .A01 {
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+        
+    }
+    .A02 {
+        width: 100%;
+    }
+    .A03 {
+        width: 100%;
+    }
+    .Map {
+        width: 100%;
+        aspect-ratio: 1/1;
+    }
+    .A04 {
+        width: 100%;
+    }
+    a {
+        text-decoration: none;
+    }
+    .PostDisplay {
+        width: 90%;
+        margin-left: 5%;
+        display: flex;
+        flex-direction: column;
+    }
+    .PostDisplayItem {
+        border-top: 0.25cqw solid black;
+        text-transform: uppercase;
+        /* background: radial-gradient(black, white); */
+    }
+    .PostDisplayItem h3 {
+        color: black;
+        background-color: white;
+        padding: 0;
+        margin: 2%;
+        font-size: 2cqw;
+    }
+    .PostDisplayItem p {
+        color: black;
+        padding: 0%;
+        margin: 0;
+        font-size: 1cqw;
+    }
+    .AlertsMap {
+        width: 95%;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+        aspect-ratio: 1;
+    }
+}
