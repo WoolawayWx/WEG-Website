@@ -1,17 +1,22 @@
 .WEG_Red_100 {
-    background-color: rgb(139, 24, 26);
+  background-color: rgb(139, 24, 26);
 }
 body {
-    margin: 0px;
-    padding: 0px;
+  margin: 0px;
+  padding: 0px;
 }
 .AlegraeyaSans {
-    font-family: 'Alegreya Sans', sans-serif;
+  font-family: "Alegreya Sans", sans-serif;
 }
 .Link-Break-Wrap {
-    white-space: pre-wrap; /* CSS3 */    
-    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-    white-space: -pre-wrap; /* Opera 4-6 */    
-    white-space: -o-pre-wrap; /* Opera 7 */    
-    word-wrap: break-word; /* Internet Explorer 5.5+ */
+  white-space: pre-wrap; /* CSS3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

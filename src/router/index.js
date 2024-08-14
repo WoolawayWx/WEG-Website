@@ -316,6 +316,11 @@ const routes = [
     name: 'File Viewer',
     component: () => import('@/components/pages/files/FileViewer.vue')
 
+  },
+  {
+    path: '/training',
+    name: 'Training',
+    component: () => import('@/views/ComingSoon.vue')
   }
   // {
   //   path: '/test',
@@ -331,6 +336,46 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+let dbPromise
+
+function openDB(name, view, version = 1, autoIncrement = false) {
+  if (!dbPromise) {
+    dbPromise = new Promise((resolve, reject) => {
+      const req = indexedDB.open(name, version)
+      req.onupgradeneeded = () =>
+        req.result.createObjectStore(view, { autoIncrement })
+      req.onerror = () => reject(req.error)
+      req.onsuccess = () => resolve(req.result)
+    })
+  }
+  return dbPromise
+}
+
+router.beforeEach((to) => {
+  // Open the connection when the page is loaded or restored from bfcache.
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      console.log('This page was restored from the bfcache.')
+    } else {
+      console.log('This page was loaded normally.')
+    }
+    openDB('bfcache', to.name)
+  })
+
+  // Close the connection to the database when the user is leaving.
+  window.addEventListener('pagehide', (event) => {
+    if (event.persisted) {
+      console.log('This page *might* be entering the bfcache.')
+    } else {
+      console.log('This page will unload normally and be discarded.')
+    }
+    if (dbPromise) {
+      dbPromise.then((db) => db.close())
+      dbPromise = null
+    }
+  })
 })
 
 export default router

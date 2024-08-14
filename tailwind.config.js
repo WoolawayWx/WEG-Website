@@ -10,7 +10,7 @@ module.exports = {
       },
       fontFamily: {
         "Alegreya-Sans": ['Alegreya Sans', 'sans-serif'],
-        'Bebas': ["Bebas Neue", 'sans-serif'],
+        "Bebas": ['Bebas Neue', 'sans-serif'],
       },
     },
   },
