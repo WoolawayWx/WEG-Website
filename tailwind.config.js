@@ -12,6 +12,14 @@ module.exports = {
         "Alegreya-Sans": ['Alegreya Sans', 'sans-serif'],
         "Bebas": ['Bebas Neue', 'sans-serif'],
       },
+      screens: {
+        'mobile': {'max': '1024px'},
+        'desktop': '1024px'
+      },
+      aspectRatio: {
+        '9/16': "9 / 16",
+        '9/12': "9 / 12"
+      }
     },
   },
   plugins: [],

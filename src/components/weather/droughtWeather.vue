@@ -1,118 +1,139 @@
 <template>
-    <div>
-        <h2>
-            Drought Weather Infomation Page
-        </h2>
-        <p>
-            This page displays the latest infomaiton regarding drought weather for members of WEG.
-        </p>
-        <h3>Latest Update: {{ month }}/{{ date }}/{{ year }}</h3>
-        <p>Map is updated on Tuesday Mornings, but will not be public till Thursday Mornings.</p>
-        <div class="images">
-            <div class="single">
-                <h3 class="text">Map With Legend</h3>
-                <img class="droughtmapimage" :src="MapURL">
-            </div>
-            <div class="single">
-                <h3 class="text">Map Without Legend</h3>
-                <img class="droughtmapimage" :src="MapURL_NoLeg">
-            </div>
-            <div class="single">
-                <h3 class="text">Map With Stats Table</h3>
-                <img class="droughtmapimage" :src="MapURL_Tab">
+    <h1 class="text-2xl">Drought Monitor</h1>
+    <div class="flex justify-center">
+        <div id="map" ref="mapContainer" class="mobile:w-full mobile:aspect-9/12 lg:w-4/5 lg:aspect-video relative">
+            <div class="absolute flex flex-row justify-center z-10 bottom-[0%] w-full">
+                <img src="https://droughtmonitor.unl.edu/webfiles/logos/NDMC/svg/NDMC-logo-color-round.svg"
+                    class="m-1 desktop:w-[5%] mobile:w-[15%]">
+                <img src="https://droughtmonitor.unl.edu/webfiles/logos/NOAA/svg/NOAA-logo-color.svg"
+                    class="-1 desktop:w-[5%] mobile:w-[15%]" />
             </div>
         </div>
-        <h3>You can acess the U.S. Drought Monitor Here: <a href="https://droughtmonitor.unl.edu/CurrentMap/StateDroughtMonitor.aspx?MO">Click here to view the U.S. Drought Monitor</a></h3>
+    </div>
+    <div class="w-full">
+        <h1 class="text-md font-bold font-Alegreya-Sans uppercase">Image Resources</h1>
+        <div class="flex flex-col">
+            <i class="text-sm">State Specfic Maps</i>
+            <i class="text-xs">Unable to show due to lack of file structure. Click on button to open state page into a new tab.</i>
+            <div class="flex flex-wrap justify-center">
+                <button class="btn-primary" @click="NewTab('https://droughtmonitor.unl.edu/CurrentMap/StateDroughtMonitor.aspx?AR')">
+                    Arkansas
+                </button>
+                <button class="btn-primary" @click="NewTab('https://droughtmonitor.unl.edu/CurrentMap/StateDroughtMonitor.aspx?KS')">
+                    Kansas
+                </button>
+                <button class="btn-primary" @click="NewTab('https://droughtmonitor.unl.edu/CurrentMap/StateDroughtMonitor.aspx?MO')">
+                    Missouri
+                </button>
+                <button class="btn-primary" @click="NewTab('https://droughtmonitor.unl.edu/CurrentMap/StateDroughtMonitor.aspx?OK')">
+                    Oklahoma
+                </button>
+            </div>
+
+        </div>
+
     </div>
 </template>
-<script setup>
-import { useHead } from '@unhead/vue'
-useHead({
-  title: 'Drought',
-  
-})
-</script>
-<script>
 
-export default {
-    name: 'DroughtWeather',
-    components: {
-    },
-    data() {
-        return{
-            date: "",
-            day: "",
-            fulldate:"",
-            pastdays: "",
-            month: "",
-            year: "",
-            MapURL: "",
-            MapURL_NoLeg: "",
-            MapURL_Tab: ""
-        }
-    },
-    methods:{
-        findDate:function () {
-            const d= new Date()
-            if(d.getDay() == 0) {
-                this.day="Sunday"
-                this.pastdays = 5
-            } else if(d.getDay() == 1) {
-                this.day="Monday"
-                this.pastdays = 6
-            } else if(d.getDay() == 2) {
-                this.day="Tuesday"
-                this.pastdays = 7
-            } else if(d.getDay() == 3) {
-                this.day="Wednesday"
-                this.pastdays = 8
-            } else if(d.getDay() == 4) {
-                this.day="Thursday"
-                this.pastdays = 2
-            } else if(d.getDay() == 5) {
-                this.day="Friday"
-                this.pastdays = 3
-            } else if(d.getDay() == 6) {
-                this.day="Saturday"
-                this.pastdays = 4
-            }
-            
-            var b = new Date()
-            b.setDate(d.getDate()- this.pastdays)
-            this.month = b.getMonth()+1
-            this.year = b.getFullYear()
-            this.date = b.getDate()
-            if(this.date<10){
-                this.date = "0"+String(this.date)
-            }
-            // this.date = this.date - this.pastdays
-            // https://droughtmonitor.unl.edu/data/png/20231017/20231017_mo_text.png
-            this.MapURL = "https://droughtmonitor.unl.edu/data/png/"+String(this.year)+String(this.month)+String(this.date)+"/"+String(this.year)+String(this.month)+String(this.date)+"_mo_text.png"
-            this.MapURL_NoLeg = "https://droughtmonitor.unl.edu/data/png/"+String(this.year)+String(this.month)+String(this.date)+"/"+String(this.year)+String(this.month)+String(this.date)+"_mo_none.png"
-            this.MapURL_Tab = "https://droughtmonitor.unl.edu/data/png/"+String(this.year)+String(this.month)+String(this.date)+"/"+String(this.year)+String(this.month)+String(this.date)+"_mo_trd.png"
-        }
-    },
-    mounted() {
-        this.findDate()
+<script setup>
+    import { ref, onMounted } from 'vue';
+    import mapboxgl from 'mapbox-gl';
+
+    // Use your Mapbox access token
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY2FkZS13b29sYXdheXd4IiwiYSI6ImNsZDd1NTR5YjA2OXIzcW9heTYxMzZ4eWwifQ.6gn5t5sGVTVWJuqurZRlaQ';
+
+    const mapContainer = ref(null);
+    const map = ref(null);
+
+    function NewTab(url) {
+        window.open(url, "_blank")
     }
-}
+
+    onMounted(() => {
+        map.value = new mapboxgl.Map({
+            container: mapContainer.value,
+            style: 'mapbox://styles/mapbox/streets-v11', // Use the default Mapbox style
+            center: [-94, 36.8], // Center on the USA
+            zoom: 7,
+            attributionControl: false
+
+        });
+
+        map.value.on('load', () => {
+            // Add the WMS layer as a raster source
+            map.value.addSource('wms-source', {
+                'type': 'raster',
+                'tiles': [
+                    'https://ndmcgeodata.unl.edu/cgi-bin/mapserv.exe?map=/ms4w/apps/usdm/map/usdm_current_wms.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=usdm_current&WIDTH=256&HEIGHT=256&CRS=EPSG:3857&STYLES=&FORMAT=image/png&BBOX={bbox-epsg-3857}'
+                ],
+                'tileSize': 256
+            });
+
+            // Insert the WMS layer beneath all other Mapbox layers
+            const layers = map.value.getStyle().layers;
+
+            // Find the first symbol layer in the Mapbox style
+            let firstSymbolId;
+            for (const layer of layers) {
+                if (layer.type === 'symbol') {
+                    firstSymbolId = layer.id;
+                    break;
+                }
+            }
+
+            map.value.addLayer(
+                {
+                    'id': 'wms-layer',
+                    'type': 'raster',
+                    'source': 'wms-source',
+                    'paint': {}
+                },
+                firstSymbolId // Insert the WMS layer beneath the first symbol layer
+            );
+            // Add navigation control (zoom buttons and compass)
+            /* map.value.addControl(new mapboxgl.NavigationControl(), 'top-right'); */
+
+            // Add attribution control
+            map.value.addControl(new mapboxgl.AttributionControl({
+                compact: true
+            }));
+            // Enable dragging and cursor style changes
+            map.value.dragPan.enable();
+
+            map.value.on('mouseenter', () => {
+                map.value.getCanvas().style.cursor = 'grab';
+            });
+
+            map.value.on('mousedown', () => {
+                map.value.getCanvas().style.cursor = 'grabbing';
+            });
+
+            map.value.on('mouseup', () => {
+                map.value.getCanvas().style.cursor = 'grab';
+            });
+
+            map.value.on('mouseleave', () => {
+                map.value.getCanvas().style.cursor = '';
+            });
+        });
+    });
 </script>
 
 <style>
-.images{
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    margin-left: 10%;
-    margin-right: 10%;
-}
-.single{
-    text-align: center;
-}
-.text{
-    text-align: center;
-}
-.droughtmapimage{
-    width: 100%;
-}
+    @import url('https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css');
+
+    canvas {
+        width: 100%;
+        height: 100%;
+    }
+
+    #map {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pointer-events-none {
+        pointer-events: none;
+        /* Allow interactions to pass through to the map */
+    }
 </style>
