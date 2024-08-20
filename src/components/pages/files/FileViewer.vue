@@ -20,7 +20,7 @@
     </div>
 
     <div v-else>
-        <button @click="OpenInNewTab(fileURL)" class='btn-primary'>View On Mobile</button>
+        <button @click="OpenInNewTab(fileURL)" class='btn-primary' title="View On Mobile">View On Mobile</button>
         <img v-if="isImageFile" :src="fileURL" alt="Firebase file" />
         <VuePdfEmbed v-if="isPdfFile" annotation-layer text-layer :source="fileURL" />
     </div>

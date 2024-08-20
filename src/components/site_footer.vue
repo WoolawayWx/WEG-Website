@@ -8,7 +8,7 @@
           <button class="footer-menu-button AlegraeyaSans" @click="$router.push('mission')">Mission Statement</button>
         </div>
         <div class="main-footer-item">
-          <img src="@/assets/WEGwSLD512.png">
+          <img src="@/assets/WEGwSLD512.png" alt="Logo for Weather Emergency Group">
         </div>
         <div class="main-footer-item">
           <button class="footer-menu-button AlegraeyaSans" @click="$router.push('privacy')">Privacy Policy</button>
@@ -26,7 +26,7 @@
     <div class="footer-main">
       <div class="main-footer-container">
         <div class="main-footer-item">
-          <img src="@/assets/WEGwSLD512.png" class="site-iamge-mobile">
+          <img src="@/assets/WEGwSLD512.png" class="site-iamge-mobile" alt="Logo for Weather Emergency Group">
         </div>
         <div class="main-footer-item">
           <button class="footer-menu-button AlegraeyaSans" @click="$router.push('privacy')">Privacy Policy</button>

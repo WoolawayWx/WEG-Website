@@ -19,7 +19,7 @@
 <style>
 @media (min-width: 768px) {
     .header {
-        background-image: url('https://rxvuigbyexdarrlusojh.supabase.co/storage/v1/object/public/weg_public/website%20images/IMG_1778.JPG') ;
+        background-image: url('@/assets/images/ccfpd-training.JPG') ;
         width: 100%;
         background-repeat: no-repeat;
         margin: 0px;
