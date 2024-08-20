@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="bg-white text-black">
-            <p class="uppercase text-xs md:text-xl">©2024 Weather Emergency Group by WoolawayWx LLC</p>
+            <p class="uppercase text-xs md:text-xl text-center">©2024 Weather Emergency Group by WoolawayWx LLC</p>
         </div>
     </div>
 </template>
