@@ -6,7 +6,7 @@
             </div>
             <div class="w-full bg-primary text-white font-Bebas flex flex-row">
                 <div class="w-1/3 text-left pl-6 py-2 text-sm">
-                    <div v-if="weatherData">
+                    <!-- <div v-if="weatherData">
                         <h2> Current Conditions for {{ weatherData.location.name }}</h2>
                         <p>{{ weatherData.current.temp_f }} °F | {{ weatherData.current.wind_mph }} MPH - {{
                             weatherData.current.wind_dir }}</p>
@@ -16,7 +16,7 @@
                             save your setting.</p>
                         <button class="btn-primary text-sm" @click="GetWeather('Y')">Yes</button>
                         <button class="btn-primary text-sm" @click="GetWeather('N')">No</button>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="w-1/3 text-center text-4xl py-2">
                     Weather Emergency Group
@@ -377,14 +377,14 @@
             LoadCurrentConditions.value = 'true'
         }
     }
-    async function GetWeather(response) {
+    /* async function GetWeather(response) {
         if (response == 'Y') {
             await localStorage.setItem('LoadCurrentConditions', true)
             WeatherData('push')
         } else {
             localStorage.setItem('LoadCurrentConditions', false)
         }
-    }
+    } */
     async function getNWSData(lat, lon) {
         try {
             // Construct the API endpoint
