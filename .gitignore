@@ -19,3 +19,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*node_modules/
+
+#Added By Me
+node_modules/
+node_modules
+dist/
+.DS_Store
