@@ -108,12 +108,8 @@
     // Function to navigate to a specific file and reload the page
     const navigateToFile = (fileName) => {
         const newFilePath = [...filepathArray, fileName];
-        const newRoute = { name: route.name, params: { filepath: newFilePath } };
-
-        // Navigate and reload the page
-        router.push(newRoute).then(() => {
-            window.location.reload();
-        });
+        router.push({ name: route.name, params: { filepath: newFilePath } })
+            .catch(error => console.error('Navigation error:', error));
     };
 
     // Function to navigate to a specific folder
