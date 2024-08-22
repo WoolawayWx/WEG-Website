@@ -1,4 +1,8 @@
+/* cSpell:disable */
+
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -47,10 +51,24 @@
     .AboutPageDepartmentLogo {
       @apply w-[10%] aspect-square
     }
+    .Homepage-Flex-Wrap-Item {
+      @apply w-[40%] aspect-square relative bg-blend-screen bg-opacity-5 bg-gradient-to-b from-primary to-red-800 hover:bg-secondary desktop:text-[4cqw] font-Bebas hover:font-bold mobile:text-[5cqw] hover:mobile:text-[7cqw] hover:desktop:text-[5cqw] rounded-xl m-2 hover:scale-110
+    }
+    .Homepage-Flex-Wrap-Item-Child {
+      @apply absolute top-1/2 left-1/2 text-center translate-x-[-50%] translate-y-[-50%]
+    }
+    .accentLine {
+      @apply border-none h-[0.25vh] bg-primary rounded-xl shadow-lg m-2
+    }
   }
 
 .bebas-neue-regular {
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
+}
+.libre-franklin {
+  font-family: "Libre Franklin", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
