@@ -89,7 +89,6 @@
     const getFile = async () => {
         if (!isFilePath(filepath.value)) {
             isFolder.value = true;
-            console.warn('This path appears to be a folder, not a file.');
             await listFilesAndFoldersInDirectory(); // List files and folders if it's a directory
             return;
         }
