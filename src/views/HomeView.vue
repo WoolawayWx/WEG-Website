@@ -38,7 +38,7 @@ const departmentNumber = ref(Math.floor(Math.random() * NumOfDepartments) + 1);
 const NumOfDepartments = 3
 const backgroundImageStyle = computed(() => {
   return {
-    backgroundImage: `url(src/assets/images/departmentCovers/${departmentNumber.value}.jpg)`,
+    backgroundImage: `url(/assets/images/departmentCovers/${departmentNumber.value}.jpg)`,
   };
 });
 
