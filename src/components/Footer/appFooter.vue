@@ -6,7 +6,7 @@
                     <img src="@/assets/images/_branding/logo/WEG_White.svg" width="100%" height="100%" class="w-[30%] h-[30%] md:w-1/2 md:h-1/2">
                 </div>
                 <div class="md:w-1/3 flex justify-center items-center w-full md:min-w-1/3">
-                    <p class="text-white font-bold uppercase text-lg py-2"><i>Always strive to be better</i></p>
+                    <p class="text-white font-bold uppercase text-lg py-2"><i>Always Pushing for Better</i></p>
                 </div>
                 <div class="md:w-1/3 flex justify-center items-center w-full text-white flex-col flex-wrap md:min-w-1/3">
                     <RouterLink to="/joinWEG" class="Footer-Buttons" title="Join WEG">Join WEG</RouterLink>
