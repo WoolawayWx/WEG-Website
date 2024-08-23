@@ -29,7 +29,7 @@
   import { useRoute, useRouter } from 'vue-router';
   import { storage } from '@/firebase';
   import { ref as storageRef, listAll, getDownloadURL } from 'firebase/storage';
-  import VuePDFEmbed from 'vue-pdf-embed'
+  import VuePDFEmbed from 'vue-pdf-embed';
   
   // Reactive variables
   const items = ref([]);
