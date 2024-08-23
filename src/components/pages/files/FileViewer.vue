@@ -1,83 +1,46 @@
 <template>
-    <div>
-      <h1>File Viewer</h1>
-      <div v-if="loading">Loading items...</div>
-      <div v-if="error">{{ error }}</div>
-      <ul v-if="!loading && !error">
-        <li v-for="item in items" :key="item.path">
-          <template v-if="item.isFolder">
-            <a @click.prevent="navigateTo(item.path)">{{ item.name }}</a>
-          </template>
-          <template v-else>
-            <a :href="item.url" target="_blank">{{ item.name }}</a>
-          </template>
-        </li>
-      </ul>
+
+    <div v-if="loadwindow">
+        <p>Full URL Path: {{ $route.fullPath }}</p>
+        <p>{{ firebaseurl }}</p>
+        <!-- <a :href="constructedFilePath">File Path: {{ constructedFilePath }}</a> -->
+        <p>{{ filepath }}</p>
+        <VuePdfEmbed :source="PublicFirebaseURL" style="height: 5cqw;" />
     </div>
-  </template>
-  
-  <script setup>
-  import { ref, watch, onMounted } from 'vue';
-  import { useRoute, useRouter } from 'vue-router';
-  import { storage } from '@/firebase';
-  import { ref as storageRef, listAll, getDownloadURL } from 'firebase/storage';
-  
-  // Reactive variables
-  const items = ref([]);
-  const loading = ref(true);
-  const error = ref('');
-  
-  // Access the route and router instances
-  const route = useRoute();
-  const router = useRouter();
-  
-  // Function to fetch items from Firebase Storage
-  async function fetchItems(path) {
-    const folderRef = storageRef(storage, `public/${path}`);
-    try {
-      const result = await listAll(folderRef);
-      const itemPromises = result.items.map(async (itemRef) => {
-        const url = await getDownloadURL(itemRef);
-        return {
-          path: itemRef.fullPath.replace('public/', ''), // Remove 'public/' from path
-          url,
-          name: itemRef.name, // Only the file name
-          isFolder: false
-        };
-      });
-  
-      const folderPromises = result.prefixes.map(async (folderRef) => {
-        return {
-          path: folderRef.fullPath.replace('public/', ''), // Remove 'public/' from path
-          name: folderRef.name, // Only the folder name
-          isFolder: true
-        };
-      });
-  
-      items.value = await Promise.all([...itemPromises, ...folderPromises]);
-    } catch (err) {
-      error.value = 'Error fetching items.';
-      console.error(err);
-    } finally {
-      loading.value = false;
+</template>
+
+<script setup>
+    import { useRoute } from 'vue-router';
+    import VuePdfEmbed from 'vue-pdf-embed';
+    import { onMounted, ref } from 'vue';
+
+    let firebaseurl = ref("public")
+    let loadwindow = ref('false')
+    let PublicFirebaseURL = ref("")
+
+    const props = defineProps({
+        filepath: {
+            type: Array,
+            required: false, 
+        },
+    });
+    const route = useRoute();
+    let filepath = props.filepath
+
+    function GetFirebaseURL() {
+        for (let i = 0; i < filepath.length; i++) {
+            let addtofirebaseurl = '%2F' + filepath[i]
+            firebaseurl.value = firebaseurl.value + "" + addtofirebaseurl
+        }
+        PublicFirebaseURL.value = 'https://firebasestorage.googleapis.com/v0/b/weather-emergency-group-6a7c0.appspot.com/o/' + firebaseurl.value + '?alt=media'
+        loadwindow.value = true
     }
-  }
-  
-  // Watch for route changes and fetch new data accordingly
-  watch(() => route.params.filepath, (newPath) => {
-    loading.value = true;
-    error.value = '';
-    fetchItems(newPath || '');
-  });
-  
-  // Initial fetch based on current route
-  onMounted(() => {
-    fetchItems(route.params.filepath || '');
-  });
-  
-  // Function to navigate to a new path
-  function navigateTo(path) {
-    router.push({ path: `/file/${encodeURIComponent(path)}` });
-  }
-  </script>
-  
+
+    onMounted(() => {
+        GetFirebaseURL()
+    })
+</script>
+
+<style scoped>
+    /* Add any specific styling you want for the viewer */
+</style>

@@ -6,7 +6,7 @@ import { initializeApp } from "firebase/app";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAQohnTFXrucyc9HxBuDS9PDpKHzZks6nk",
+  apiKey: import.meta.env.VITE_FIREBASEKEY,
   authDomain: "weather-emergency-group-6a7c0.firebaseapp.com",
   projectId: "weather-emergency-group-6a7c0",
   storageBucket: "weather-emergency-group-6a7c0.appspot.com",
