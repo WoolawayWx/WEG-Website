@@ -15,6 +15,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@supabase/supabase-js": "^2.45.1",
     "@tinymce/tinymce-vue": "^6.0.1",
     "@unhead/ssr": "^1.10.0",

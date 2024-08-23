@@ -5,6 +5,8 @@ import VueGtag from "vue-gtag";
 import { createHead } from '@unhead/vue'
 import './index.css'
 import 'primeicons/primeicons.css'
+import '@fortawesome/fontawesome-free/css/all.css';
+
 
 
 // main
