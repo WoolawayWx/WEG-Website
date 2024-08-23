@@ -3,13 +3,21 @@
       <h1>File Viewer</h1>
       <div v-if="loading">Loading items...</div>
       <div v-if="error">{{ error }}</div>
-      <ul v-if="!loading && !error">
+      
+      <!-- Display file URL if a file is selected -->
+      <div v-if="currentFile && currentFile.isPdf">
+        <VuePDFEmbed :source="currentFile.url"/>
+        <p>File URL: <a :href="currentFile.url" target="_blank">{{ currentFile.url }}</a></p>
+      </div>
+      
+      <!-- Display file and folder list -->
+      <ul v-if="!loading && !error && !currentFile">
         <li v-for="item in items" :key="item.path">
           <template v-if="item.isFolder">
             <a @click.prevent="navigateTo(item.path)">{{ item.name }}</a>
           </template>
           <template v-else>
-            <a :href="item.url" target="_blank">{{ item.name }}</a>
+            <a @click.prevent="viewPdf(item.path)">{{ item.name }}</a>
           </template>
         </li>
       </ul>
@@ -21,11 +29,13 @@
   import { useRoute, useRouter } from 'vue-router';
   import { storage } from '@/firebase';
   import { ref as storageRef, listAll, getDownloadURL } from 'firebase/storage';
+  import VuePDFEmbed from 'vue-pdf-embed'
   
   // Reactive variables
   const items = ref([]);
   const loading = ref(true);
   const error = ref('');
+  const currentFile = ref(null);
   
   // Access the route and router instances
   const route = useRoute();
@@ -40,9 +50,10 @@
         const url = await getDownloadURL(itemRef);
         return {
           path: itemRef.fullPath.replace('public/', ''), // Remove 'public/' from path
-          url,
+          url: buildUrl(itemRef.fullPath.replace('public/', '')), // Build the correct URL format
           name: itemRef.name, // Only the file name
-          isFolder: false
+          isFolder: false,
+          isPdf: itemRef.name.endsWith('.pdf') // Check if the file is a PDF
         };
       });
   
@@ -67,17 +78,75 @@
   watch(() => route.params.filepath, (newPath) => {
     loading.value = true;
     error.value = '';
-    fetchItems(newPath || '');
+    currentFile.value = null;
+  
+    if (Array.isArray(newPath)) {
+      newPath = newPath.join('/');
+    }
+  
+    if (newPath && newPath.endsWith('.pdf')) {
+      const encodedPath = encodeURIComponent(newPath);
+      const url = `https://firebasestorage.googleapis.com/v0/b/weather-emergency-group-6a7c0.appspot.com/o/public%2F${encodedPath}?alt=media`;
+      console.log('PDF URL:', url);
+      currentFile.value = {
+        url,
+        isPdf: true
+      };
+      loading.value = false; // Done loading
+    } else {
+      fetchItems(newPath || '');
+    }
   });
   
   // Initial fetch based on current route
   onMounted(() => {
-    fetchItems(route.params.filepath || '');
+    let filepath = route.params.filepath || '';
+    
+    if (Array.isArray(filepath)) {
+      filepath = filepath.join('/');
+    }
+  
+    if (filepath.endsWith('.pdf')) {
+      const encodedPath = encodeURIComponent(filepath);
+      const url = `https://firebasestorage.googleapis.com/v0/b/weather-emergency-group-6a7c0.appspot.com/o/public%2F${encodedPath}?alt=media`;
+      console.log('PDF URL:', url);
+      currentFile.value = {
+        url,
+        isPdf: true
+      };
+      loading.value = false; // Done loading
+    } else {
+      fetchItems(filepath);
+    }
   });
   
   // Function to navigate to a new path
   function navigateTo(path) {
     router.push({ path: `/file/${encodeURIComponent(path)}` });
   }
+  
+  // Function to view a PDF
+  function viewPdf(path) {
+    const encodedPath = encodeURIComponent(path);
+    const url = `https://firebasestorage.googleapis.com/v0/b/weather-emergency-group-6a7c0.appspot.com/o/public%2F${encodedPath}?alt=media`;
+    router.push({ path: `/file/${path}` });
+    currentFile.value = {
+      url,
+      isPdf: true
+    };
+    loading.value = false; // Done loading
+  }
+  
+  // Helper function to build correct file URL
+  function buildUrl(path) {
+    const encodedPath = encodeURIComponent(path);
+    return `https://firebasestorage.googleapis.com/v0/b/weather-emergency-group-6a7c0.appspot.com/o/public%2F${encodedPath}?alt=media`;
+  }
   </script>
+  
+  <style>
+  .pdf-viewer {
+    margin-top: 20px;
+  }
+  </style>
   
