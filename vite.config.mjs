@@ -10,5 +10,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  server: {
+    historyApiFallback: true, // Ensures fallback to index.html for non-file requests
+  },
 })
