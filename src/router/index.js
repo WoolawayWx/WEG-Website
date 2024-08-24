@@ -312,9 +312,9 @@ const routes = [
     component: () => import('@/components/infoReqPage.vue')
   },
   {
-    path: '/file/:filepath*',
+    path: '/file/',
     name: 'File Viewer',
-    props: true,
+/*     props: true, */
     component: () => import('@/components/pages/files/FileViewer.vue')
   },
   {
