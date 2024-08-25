@@ -14,10 +14,21 @@
   </div>
   <div class="pt-4 pb-4">
     <div class="flex desktop:flex-row mobile:flex-col justify-center desktop:w-3/4 m-auto">
-      <button class="btn-primary">Severe Weather</button>
-      <button class="btn-primary">Drought and Fire Weather</button>
-      <button class="btn-primary">About WEG</button>
-      <button class="btn-primary">Join Today!</button>
+      <RouterLink to="/weather/severe" class="btn-primary">
+        Severe Weather
+      </RouterLink>
+      <RouterLink to="/weather/drought" class="btn-primary">
+        Drought Weather
+      </RouterLink>
+      <RouterLink to="/weather/fire" class="btn-primary">
+        Fire Weather
+      </RouterLink>
+      <RouterLink to="/about" class="btn-primary">
+        About WEG
+      </RouterLink>
+      <RouterLink to="/joinWEG" class="btn-primary">
+        Join WEG Today!
+      </RouterLink>
     </div>
   </div>
   <div class="w-full">
@@ -38,7 +49,7 @@ const departmentNumber = ref(Math.floor(Math.random() * NumOfDepartments) + 1);
 const NumOfDepartments = 3
 const backgroundImageStyle = computed(() => {
   return {
-    backgroundImage: `url(/assets/images/departmentCovers/${departmentNumber.value}.jpg)`,
+    backgroundImage: `url(/assets/images/departmentCovers/${departmentNumber.value}.webp)`,
   };
 });
 
