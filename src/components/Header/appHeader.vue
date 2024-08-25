@@ -35,11 +35,12 @@
                             Home
                         </button>
                     </RouterLink>
-                    <RouterLink to="/file" custom v-slot="{ navigate, isActive }">
-                        <button class="NavButton" @click="navigate" role="link" :class="{ 'active-link': isActive }">
+                    <div class="relative">
+                        <button class="NavButton" @click="openInNewTab('https://drive.google.com/drive/folders/1bkFcJDabDNy6dLUz_gi7pC268PaqRwF6?usp=sharing')" role="link"
+                            :class="{ 'active-link': isActive }">
                             Files
                         </button>
-                    </RouterLink>
+                    </div>
                     <div class="relative" @mouseover="WeatherMenu = true" @click="WeatherMenu = true"
                         @mouseleave="WeatherMenu = false">
                         <button class="NavButton" role="link"
@@ -154,12 +155,12 @@
                             Home
                         </button>
                     </RouterLink>
-                    <RouterLink to="/file" custom v-slot="{ navigate, isActive }">
-                        <button class="NavButton_Mobile" @click="navigate" role="link"
+                    <span>
+                        <button class="NavButton_Mobile" @click="openInNewTab('https://drive.google.com/drive/folders/1bkFcJDabDNy6dLUz_gi7pC268PaqRwF6?usp=sharing')" role="link"
                             :class="{ 'active-link': isActive }">
                             Files
                         </button>
-                    </RouterLink>
+                    </span>
                     <div class="relative" @click="WeatherMenu = true" @mouseleave="WeatherMenu = false">
                         <button class="NavButton_Mobile" role="link"
                             :class="{ 'active-link': route.path.startsWith('/weather') }">
@@ -274,156 +275,13 @@
     let WeatherMenu = ref(false);
     let AboutMenu = ref(false)
     let MobileMenu = ref(false)
-    let UserLoc = ref(null)
-    let User_Lat = ref(null)
-    let User_Lon = ref(null)
-    let LoadCurrentConditions = ref(null)
 
     watch(route, () => {
         MobileMenu.value = false;
     });
-    const weatherData = ref(null);
-    onMounted(async () => {
-        UserLoc.value = localStorage.getItem("UserLoc")
-        LoadCurrentConditions.value = localStorage.getItem("LoadCurrentConditions")
-        await WeatherData()
-    });
-    function waitFor(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-    async function WeatherData(value) {
-        if (LoadCurrentConditions.value == 'true') {
-            if (localStorage.getItem("UserLoc") != null) {
-                getNWSData(localStorage.getItem("User_Lat"), localStorage.getItem("User_Lon"))
-                try {
-                    const response = await axios.get('http://api.weatherapi.com/v1/current.json', {
-                        params: {
-                            key: 'f9d6d961fbb243e9bc3203623241408',
-                            q: localStorage.getItem("UserLoc"),
-                            aqi: 'no',
-                        },
-                    });
-                    weatherData.value = response.data;
-                } catch (error) {
-                    console.error('Error fetching weather data:', error);
-                }
-            } else {
-                if ("geolocation" in navigator) {
-                    navigator.geolocation.getCurrentPosition(async (position) => {
-                        User_Lat.value = position.coords.latitude
-                        User_Lon.value = position.coords.longitude
-                        localStorage.setItem("User_Lat", User_Lat.value)
-                        localStorage.setItem("User_Lon", User_Lon.value)
-                        localStorage.setItem('UserLoc', User_Lat.value + ',' + User_Lon.value)
-                    });
-                } else {
-                    /* geolocation IS NOT available */
-                }
-                getNWSData(User_Lat.value, User_Lon.value)
-                try {
-                    const response = await axios.get('http://api.weatherapi.com/v1/current.json', {
-                        params: {
-                            key: 'f9d6d961fbb243e9bc3203623241408',
-                            q: localStorage.getItem("UserLoc"),
-                            aqi: 'no',
-                        },
-                    });
-                    weatherData.value = response.data;
-                } catch (error) {
-                    console.error('Error fetching weather data:', error);
-                }
-            }
-        } else if (LoadCurrentConditions.value == 'true' || value == 'push') {
-            if (localStorage.getItem("UserLoc") != null) {
-                try {
-                    const response = await axios.get('http://api.weatherapi.com/v1/current.json', {
-                        params: {
-                            key: 'f9d6d961fbb243e9bc3203623241408',
-                            q: localStorage.getItem("UserLoc"),
-                            aqi: 'no',
-                        },
-                    });
-                    weatherData.value = response.data;
-                } catch (error) {
-                    console.error('Error fetching weather data:', error);
-                }
-            } else {
-                if ("geolocation" in navigator) {
-                    navigator.geolocation.getCurrentPosition(async (position) => {
-                        User_Lat.value = position.coords.latitude
-                        User_Lon.value = position.coords.longitude
-                        localStorage.setItem("User_Lat", User_Lat.value)
-                        localStorage.setItem("User_Lon", User_Lon.value)
-                        localStorage.setItem('UserLoc', User_Lat.value + ',' + User_Lon.value)
-                    });
-                } else {
-                    /* geolocation IS NOT available */
-                }
-                await waitFor(1000)
-                
-                try {
-                    const response = await axios.get('http://api.weatherapi.com/v1/current.json', {
-                        params: {
-                            key: 'f9d6d961fbb243e9bc3203623241408',
-                            q: localStorage.getItem("UserLoc"),
-                            aqi: 'no',
-                        },
-                    });
-                    weatherData.value = response.data;
-                } catch (error) {
-                    console.error('Error fetching weather data:', error);
-                }
-            }
-            LoadCurrentConditions.value = 'true'
-        }
-    }
-    /* async function GetWeather(response) {
-        if (response == 'Y') {
-            await localStorage.setItem('LoadCurrentConditions', true)
-            WeatherData('push')
-        } else {
-            localStorage.setItem('LoadCurrentConditions', false)
-        }
-    } */
-    async function getNWSData(lat, lon) {
-        try {
-            // Construct the API endpoint
-            const endpoint = `https://api.weather.gov/points/${lat},${lon}`;
 
-            // Make the request to the NWS API
-            const response = await axios.get(endpoint);
-
-            // Check for the status and fetch the data
-            if (response.status === 200) {
-                // The NWS API will return a lot of data; we can pick what we need
-                const nwsData = response.data;
-
-                // Log the data (for example purposes)
-                console.log('NWS Data:', nwsData);
-
-                // Example: Fetching the forecast URL and other properties
-                const forecastUrl = nwsData.properties.forecast;
-                const forecastOffice = nwsData.properties.forecastOffice;
-                const gridId = nwsData.properties.gridId;
-                const gridX = nwsData.properties.gridX;
-                const gridY = nwsData.properties.gridY;
-
-                console.log('Forecast URL:', forecastUrl);
-                console.log('Forecast Office:', forecastOffice);
-                console.log('Grid ID:', gridId);
-                console.log('Grid X:', gridX);
-                console.log('Grid Y:', gridY);
-
-                // You can return or process this data as needed
-                return nwsData;
-            } else {
-                console.error('Error: Non-200 status code received', response.status);
-                return null;
-            }
-        } catch (error) {
-            console.error('Error fetching NWS data:', error);
-            return null;
-        }
+    function openInNewTab(url) {
+        window.open(url, '_blank').focus();
     }
 </script>
 
