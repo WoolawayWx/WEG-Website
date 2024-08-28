@@ -371,13 +371,13 @@ const routes = [
   },
   {
     path: "/weather/forecast/maps",
-    name: 'Forecast Plots',
+    name: "Forecast Plots",
     component: () => import("@/views/weather/forecastPlots.vue"),
-  }
+  },
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes,
 });
 
