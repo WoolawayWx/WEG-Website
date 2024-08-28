@@ -36,8 +36,7 @@
                         </button>
                     </RouterLink>
                     <div class="relative">
-                        <button class="NavButton" @click="openInNewTab('https://drive.google.com/drive/folders/1bkFcJDabDNy6dLUz_gi7pC268PaqRwF6?usp=sharing')" role="link"
-                            :class="{ 'active-link': isActive }">
+                        <button class="NavButton" @click="openInNewTab('https://drive.google.com/drive/folders/1bkFcJDabDNy6dLUz_gi7pC268PaqRwF6?usp=sharing')" role="link">
                             Files
                         </button>
                     </div>
