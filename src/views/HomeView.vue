@@ -58,13 +58,14 @@
 
 <script setup>
   import { ref, computed } from 'vue';
+  import { Head } from '@unhead/vue/components';
 
   const departmentNumber = ref(Math.floor(Math.random() * NumOfDepartments) + 1);
   const NumOfDepartments = 3
   const backgroundImageStyle = computed(() => {
     return {
       background: 'linear-gradient(90deg, #000, #111)',
-      backgroundImage: `url(./assets/images/departmentCovers/${departmentNumber.value}.webp)`,
+      backgroundImage: `url(assets/images/header-homepage/${departmentNumber.value}.webp)`,
     };
   });
 
