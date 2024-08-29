@@ -10,8 +10,8 @@
             <p>File URL: <a :href="currentFile.url" target="_blank">{{ currentFile.url }}</a></p>
         </div>
         <div v-if="currentFile && !currentFile.isPdf">
-            <imageDis :ImageURL="currentFile.url"/>
-            <p>Image URL: <a :href="currentFile.url">{{currentFile.url}}</a></p>
+            <imageDis :ImageURL="currentFile.url" class="mobile:w-full desktop:w-1/2 desktop:ml-[25%]"/>
+            <button class="btn-primary"><a :href="currentFile.url" target="_blank">Open in New Tab</a></button>
         </div>
 
         <!-- Display file and folder list -->

@@ -159,12 +159,18 @@
                             Home
                         </button>
                     </RouterLink>
-                    <span>
+                    <RouterLink to="/file" custom v-slot="{ navigate, isActive }">
+                        <button class="NavButton_Mobile" @click="navigate" role="link"
+                            :class="{ 'active-link': isActive }">
+                            Files
+                        </button>
+                    </RouterLink>
+                    <!-- <span>
                         <button class="NavButton_Mobile" @click="openInNewTab('https://drive.google.com/drive/folders/1bkFcJDabDNy6dLUz_gi7pC268PaqRwF6?usp=sharing')" role="link"
                             :class="{ 'active-link': isActive }">
                             Files
                         </button>
-                    </span>
+                    </span> -->
                     <div class="relative" @click="WeatherMenu = true" @mouseleave="WeatherMenu = false">
                         <button class="NavButton_Mobile" role="link"
                             :class="{ 'active-link': route.path.startsWith('/weather') }">
