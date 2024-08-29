@@ -65,7 +65,7 @@
   const backgroundImageStyle = computed(() => {
     return {
       background: 'linear-gradient(90deg, #000, #111)',
-      backgroundImage: `url(src/assets/images/departmentCovers/${departmentNumber.value}.webp)`,
+      backgroundImage: `url(assets/images/header-homepage/${departmentNumber.value}.webp)`,
     };
   });
 
