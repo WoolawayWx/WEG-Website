@@ -1,9 +1,5 @@
 /* cSpell:disable */
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,54 +17,92 @@
 }
 
 @layer components {
-    .btn-primary {
-      @apply py-2 px-5 my-1 mx-3 bg-primary font-semibold rounded-full shadow-md hover:bg-neutral text-white hover:text-black no-underline;
-    }
-    .btn-onBlack {
-        @apply py-1 px-2 md:py-2 md:px-5 md:text-2xl md:h-[4vh] text-xs aspect-auto bg-black text-white border-2 border-white font-semibold rounded-full shadow-md hover:bg-white focus:outline-none focus:ring focus:ring-white focus:ring-opacity-75 hover:text-black;
-    }
-    .NavBarButton {
-      @apply mx-2 px-2 hover:bg-white py-2 my-1 hover:text-black rounded-xl shadow-md shadow-black
-    }
-    .NavButton {
-      @apply  text-white uppercase pt-1 mt-3 mb-2 px-1 mx-4 rounded-md hover:bg-secondary hover:text-black font-bold
-    }
-    .NavButton_Mobile {
-      @apply  text-white uppercase pt-1 mt-3 mb-2 px-1 mx-[10%] w-[80%] rounded-md hover:bg-secondary hover:text-black font-bold
-    }
-    .active-link {
-      @apply border-b-4 border-white hover:border-black 
-    }
-    .Desktop-Nav-Dropdown {
-      @apply bg-white w-[125%] shadow-xl rounded-xl shadow-black flex flex-col font-bold text-black uppercase text-center justify-center left-[50%] translate-x-[-50%]
-    }
-    .dropmenu-active {
-      @apply bg-black text-white
-    }
-    .Desktop-Nav-Dropdown-Child {
-      @apply w-4/5 ml-auto mr-auto p-1 my-1 uppercase text-sm hover:bg-secondary ring-black hover:ring-2 rounded-lg transition duration-500 hover:scale-125
-    }
-    .AboutPageDepartmentLogo {
-      @apply w-[10%] aspect-square
-    }
-    .Homepage-Flex-Wrap-Item {
-      @apply w-[40%] aspect-square relative bg-blend-screen bg-opacity-5 bg-gradient-to-b from-primary to-red-800 hover:bg-secondary desktop:text-[4cqw] font-Bebas hover:font-bold mobile:text-[5cqw] hover:mobile:text-[7cqw] hover:desktop:text-[5cqw] rounded-xl m-2 hover:scale-110
-    }
-    .Homepage-Flex-Wrap-Item-Child {
-      @apply absolute top-1/2 left-1/2 text-center translate-x-[-50%] translate-y-[-50%]
-    }
-    .accentLine {
-      @apply border-none h-[0.25vh] bg-primary rounded-xl shadow-lg m-2
-    }
+  .btn-primary {
+    @apply py-2 px-5 my-1 mx-3 bg-primary font-semibold rounded-full shadow-md hover:bg-neutral text-white hover:text-black no-underline;
   }
+  .btn-onBlack {
+    @apply py-1 px-2 md:py-2 md:px-5 md:text-2xl md:h-[4vh] text-xs aspect-auto bg-black text-white border-2 border-white font-semibold rounded-full shadow-md hover:bg-white focus:outline-none focus:ring focus:ring-white focus:ring-opacity-75 hover:text-black;
+  }
+  .NavBarButton {
+    @apply mx-2 px-2 hover:bg-white py-2 my-1 hover:text-black rounded-xl shadow-md shadow-black;
+  }
+  .NavButton {
+    @apply text-white uppercase pt-1 mt-3 mb-2 px-1 mx-4 rounded-md hover:bg-secondary hover:text-black font-bold;
+  }
+  .NavButton_Mobile {
+    @apply text-white uppercase pt-1 mt-3 mb-2 px-1 mx-[10%] w-[80%] rounded-md hover:bg-secondary hover:text-black font-bold;
+  }
+  .active-link {
+    @apply border-b-4 border-white hover:border-black;
+  }
+  .Desktop-Nav-Dropdown {
+    @apply bg-white w-[125%] shadow-xl rounded-xl shadow-black flex flex-col font-bold text-black uppercase text-center justify-center left-[50%] translate-x-[-50%];
+  }
+  .dropmenu-active {
+    @apply bg-black text-white;
+  }
+  .Desktop-Nav-Dropdown-Child {
+    @apply w-4/5 ml-auto mr-auto p-1 my-1 uppercase text-sm hover:bg-secondary ring-black hover:ring-2 rounded-lg transition duration-500 hover:scale-125;
+  }
+  .AboutPageDepartmentLogo {
+    @apply w-[10%] aspect-square;
+  }
+  .Homepage-Flex-Wrap-Item {
+    @apply w-[40%] aspect-square relative bg-blend-screen bg-opacity-5 bg-gradient-to-b from-primary to-red-800 hover:bg-secondary desktop:text-[4cqw] font-Bebas hover:font-bold mobile:text-[5cqw] hover:mobile:text-[7cqw] hover:desktop:text-[5cqw] rounded-xl m-2 hover:scale-110;
+  }
+  .Homepage-Flex-Wrap-Item-Child {
+    @apply absolute top-1/2 left-1/2 text-center translate-x-[-50%] translate-y-[-50%];
+  }
+  .accentLine {
+    @apply border-none h-[0.25vh] bg-primary rounded-xl shadow-lg m-2;
+  }
+}
 
+@font-face {
+  font-family: Bebas Neue;
+  src: url("@/assets/fonts/BebasNeue-Regular.ttf");
+  font-display: swap;
+}
+@font-face {
+  font-family: Raleway;
+  src: url("@/assets/fonts/Raleway-Regular.ttf");
+  font-display: swap;
+}
+@font-face {
+  font-family: Libre Franklin;
+  src: url('@/assets/fonts/LibreFranklin-Regular.ttf');
+  font-display: swap;
+}
 .bebas-neue-regular {
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 .libre-franklin {
   font-family: "Libre Franklin", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+}
+
+.WEG_Red_100 {
+  background-color: rgb(139, 24, 26);
+}
+body {
+  margin: 0px;
+  padding: 0px;
+}
+.AlegraeyaSans {
+  font-family: "Alegreya Sans", sans-serif;
+}
+.Link-Break-Wrap {
+  white-space: pre-wrap; /* CSS3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
