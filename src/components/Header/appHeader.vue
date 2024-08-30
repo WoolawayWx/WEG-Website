@@ -89,6 +89,12 @@
                                         Current Conditions
                                     </button>
                                 </RouterLink>
+                                <RouterLink to="/weather/forecast/maps" custom v-slot="{ navigate, isActive }">
+                                    <button class="Desktop-Nav-Dropdown-Child" @click="navigate" role="link"
+                                        :class="{ 'dropmenu-active': isActive }">
+                                        Forecast Maps
+                                    </button>
+                                </RouterLink>
                             </div>
                         </Transition>
 
@@ -212,6 +218,12 @@
                                     <button class="Desktop-Nav-Dropdown-Child" @click="navigate" role="link"
                                         :class="{ 'dropmenu-active': isActive }">
                                         Current Conditions
+                                    </button>
+                                </RouterLink>
+                                <RouterLink to="/weather/forecast/maps" custom v-slot="{ navigate, isActive }">
+                                    <button class="Desktop-Nav-Dropdown-Child" @click="navigate" role="link"
+                                        :class="{ 'dropmenu-active': isActive }">
+                                        Daily Maps
                                     </button>
                                 </RouterLink>
                             </div>
